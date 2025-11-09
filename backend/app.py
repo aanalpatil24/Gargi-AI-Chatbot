@@ -13,6 +13,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def home():
+    return jsonify({"status": "Gargi AI backend is live on Render!"})
+
 # --- 2. Client Setup ---
 API_KEY = os.getenv("GOOGLE_API_KEY")
 if not API_KEY:
@@ -39,6 +43,7 @@ def generate_stream(gemini_history, user_message, system_instruction):
             system_instruction=system_instruction
         )
 
+        # Start a chat session
         chat_session = model.start_chat(history=gemini_history)
 
         response_stream = chat_session.send_message(user_message, stream=True)
@@ -67,6 +72,7 @@ def chat():
     if not user_msg:
         return jsonify({"error": "No message provided"}), 400
 
+    # --- A. Perform Sentiment Analysis ---
     sentiment = "unknown"
     if sentiment_analyzer:
         try:
@@ -76,6 +82,8 @@ def chat():
         except Exception as e:
             logging.warning(f"Sentiment analysis failed: {e}")
 
+    # --- B. Create Dynamic System Instruction ---
+    # --- B. Create Dynamic System Instruction ---
     system_instruction = (
         f"Your name is strictly Gargi. You are a helpful AI assistant. "
         f"If asked who you are, you must only say you are Gargi, an AI assistant. "
@@ -84,11 +92,13 @@ def chat():
         f"Adjust your tone accordingly."
     )
 
+    # --- C. Convert History to Gemini Format ---
     gemini_history = []
     for msg in history:
         role = 'model' if msg['role'] == 'assistant' else 'user'
         gemini_history.append({'role': role, 'parts': [msg['content']]})
 
+    # --- D. Start Streaming Response ---
     return Response(stream_with_context(generate_stream(
         gemini_history, 
         user_msg, 
@@ -98,4 +108,5 @@ def chat():
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
+    print(f"Starting Flask app on port {port} ...", flush=True)
     app.run(host="0.0.0.0", port=port)
