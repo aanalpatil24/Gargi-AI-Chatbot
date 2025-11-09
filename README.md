@@ -1,10 +1,8 @@
 ## 🤖 Gargi AI Chatbot
-
 This project is a full-stack, intelligent chatbot application. It features a simple, clean chat interface and is powered by Google Gemini's models.
 It is built with a Flask backend providing an API, and a Streamlit frontend providing the user interface.
 
 ## Definition
-
 Gargi is a web application that provides a conversational AI interface. Users can have a conversation with an AI assistant, which will respond intelligently. The chat history is maintained only for the current session and will be cleared if you close the browser tab or click "Clear Chat History".
 
 ## Tech Stack
