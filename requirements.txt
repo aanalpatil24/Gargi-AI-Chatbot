@@ -6,3 +6,8 @@ google-generativeai
 transformers
 torch
 tf-keras
+
+streamlit
+requests
+json
+logging

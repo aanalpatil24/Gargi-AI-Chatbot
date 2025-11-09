@@ -1,8 +1,8 @@
 ## 🤖 Gargi AI Powered Chatbot
 
-This project is a full-stack, intelligent chatbot application. It features a simple, clean chat interface and is powered by OpenAI's GPT models.
+This project is a full-stack, intelligent chatbot application. It features a simple, clean chat interface and is powered by Google Gemini's models.
 
-It is built with a Python backend (Flask) providing an API, and a Python frontend (Streamlit) providing the user interface.
+It is built with a Flask backend providing an API, and a Streamlit frontend providing the user interface.
 
 ## 📜 Definition
 
@@ -24,7 +24,7 @@ Streamlit: An open-source Python library used to build the web app interface.
 
 # ** AI & NLP: **
 
-OpenAI (ChatGPT): The core large language model (LLM) that generates the chatbot's intelligent responses.
+Google (Gemini): The core large language model (LLM) that generates the chatbot's intelligent responses.
 
 Hugging Face transformers: Used for Natural Language Processing (NLP). Specifically, it runs a sentiment analysis model on the user's input to provide context to the AI.
 
@@ -52,9 +52,11 @@ Scalable Backend: The Flask API is separate from the UI, so it can be deployed a
 
 1. Create a .env file
 
-You still need your OpenAI API key. Create a file named .env in the same directory as app.py.
+You need a Gemini API key from Google AI Studio.
+Go to Google AI Studio. Create a new API key.
+Create a file named .env in the same directory as app.py.
 
-OPENAI_API_KEY='sk-YourSuperSecretApiKeyHere'
+GOOGLE_API_KEY='Your-Google-Key-Here'
 
 
 2. Install Dependencies
@@ -87,7 +89,9 @@ Terminal 2: Run the Streamlit UI
 streamlit run streamlit_app.py
 
 
-Streamlit will open your browser to http://localhost:8501. You can now start chatting with Gargi.
+Streamlit will open your browser to http://localhost:8501. 
+You can now start chatting with Gargi.
+
 
 ## 🌎 How to Deploy to the Internet (from Scratch)
 
@@ -139,7 +143,7 @@ Under "Secret Files", you can skip this, but under "Environment Variables":
 
 Click "Add Environment Variable".
 
-Key: OPENAI_API_KEY
+Key: GEMINI_API_KEY
 
 Value: Paste your sk-YourSuperSecretApiKeyHere
 
