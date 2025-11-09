@@ -68,7 +68,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 </details>
----
+
 ## How to Run (Localhost)
 <details>
   <Summary>Click on How to Run</Summary>
