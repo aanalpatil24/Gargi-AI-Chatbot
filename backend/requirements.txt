@@ -5,4 +5,6 @@ python-dotenv
 google-generativeai
 transformers
 torch
+json
+jsonify
 tf-keras
