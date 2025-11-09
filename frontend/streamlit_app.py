@@ -18,7 +18,6 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # --- UI Elements ---
-# --- Custom CSS to fix input border ---
 st.markdown(
     """
     <style>
@@ -46,12 +45,11 @@ if st.button("Clear Chat History", type="secondary"):
 
 # --- Chat Input Logic ---
 if prompt := st.chat_input("What's on your mind?"):
-    # 1. Add user message to local state and display it
+    
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # 2. Get streaming response from Flask API
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         message_placeholder.markdown("Thinking...")
@@ -75,7 +73,6 @@ if prompt := st.chat_input("What's on your mind?"):
             
             full_response = ""
             
-            # Iterate over the streaming response
             for line in response.iter_lines():
                 if line:
                     decoded_line = line.decode('utf-8')
