@@ -16,6 +16,10 @@ CORS(app)
 @app.route("/")
 def home():
     return jsonify({"status": "Gargi AI backend is live on Render!"})
+    
+@app.route("/favicon.ico")
+def favicon():
+    return "", 204
 
 # --- 2. Client Setup ---
 API_KEY = os.getenv("GOOGLE_API_KEY")
