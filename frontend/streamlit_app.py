@@ -4,11 +4,6 @@ import json
 import logging
 
 # --- Configuration ---
-FLASK_API_URL = st.secrets.get("FLASK_API_URL", "import streamlit as st
-import requests
-import json
-import logging
-
 # --- Configuration ---
 FLASK_API_URL = st.secrets.get("FLASK_API_URL", "https://gargi-backend-3v6i.onrender.com/")
 
