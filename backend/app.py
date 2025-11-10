@@ -15,7 +15,7 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return jsonify({"status": "Gargi AI backend is live on Render!"})
+    return jsonify({"status": "Gargi AI backend running"}), 200
 
 # --- 2. Client Setup ---
 API_KEY = os.getenv("GOOGLE_API_KEY")
