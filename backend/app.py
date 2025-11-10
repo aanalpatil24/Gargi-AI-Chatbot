@@ -83,7 +83,6 @@ def chat():
             logging.warning(f"Sentiment analysis failed: {e}")
 
     # --- B. Create Dynamic System Instruction ---
-    # --- B. Create Dynamic System Instruction ---
     system_instruction = (
         f"Your name is strictly Gargi. You are a helpful AI assistant. "
         f"If asked who you are, you must only say you are Gargi, an AI assistant. "
