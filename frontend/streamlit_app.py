@@ -4,7 +4,7 @@ import json
 import logging
 
 # --- Configuration ---
-FLASK_API_URL = st.secrets.get("FLASK_API_URL", "https://gargi-backend-3v6i.onrender.com/")
+FLASK_API_URL = st.secrets.get("FLASK_API_URL", "https://gargi-backend-qkvg.onrender.com")
 
 st.set_page_config(
     page_title="Gargi AI Chatbot",
