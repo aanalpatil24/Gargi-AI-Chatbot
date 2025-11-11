@@ -11,6 +11,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 app = Flask(__name__)
 CORS(app)
 
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config["DEBUG"] = True
+
+
 @app.route("/")
 def home():
     return jsonify({"status": "Gargi AI backend live on Render!"})
@@ -65,23 +69,23 @@ def generate_stream(gemini_history, user_message, system_instruction):
         yield f"data: {json.dumps({'type': 'error', 'content': err})}\n\n"
 
 # --- 4. Main Endpoint ---
-@app.route("/chat", methods=["POST"])
+@app.route("/chat", methods=["POST"]) 
 def chat():
     global sentiment_analyzer
+    try:
+      data = request.json or {}
+      user_msg = data.get("message")
+      history = data.get("history", [])
 
-    data = request.json or {}
-    user_msg = data.get("message")
-    history = data.get("history", [])
-
-    if not user_msg:
+      if not user_msg:
         return jsonify({"error": "No message provided"}), 400
 
-    # --- A. Sentiment Analysis (lazy load) ---
-    sentiment = "unknown"
-    if sentiment_analyzer is None:
+      # --- A. Sentiment Analysis (lazy load) ---
+      sentiment = "unknown"
+      if sentiment_analyzer is None:
         sentiment_analyzer = get_sentiment_pipeline()
 
-    if sentiment_analyzer:
+      if sentiment_analyzer:
         try:
             result = sentiment_analyzer(user_msg)
             sentiment = result[0]['label']
@@ -89,28 +93,32 @@ def chat():
         except Exception as e:
             logging.warning(f"Sentiment analysis failed: {e}")
 
-    # --- B. System Instruction ---
-    system_instruction = (
+      # --- B. System Instruction ---
+      system_instruction = (
         f"Your name is Gargi, a helpful AI assistant. "
         f"Never reveal model origin. "
         f"User sentiment seems {sentiment}. Adjust tone accordingly."
-    )
+      )
 
-    # --- C. Format History for Gemini ---
-    gemini_history = [
+      # --- C. Format History for Gemini ---
+      gemini_history = [
         {'role': 'model' if m['role'] == 'assistant' else 'user', 'parts': [m['content']]}
         for m in history
-    ]
+       ]
 
-    # --- D. Stream Response ---
-    return Response(stream_with_context(generate_stream(
+       # --- D. Stream Response ---
+      return Response(stream_with_context(generate_stream(
         gemini_history,
         user_msg,
         system_instruction
-    )), mimetype='text/event-stream')
+      )), mimetype='text/event-stream')
+    
+    except Exception as e:
+     logging.error(f"Chat route error: {e}", exc_info=True)
+     return jsonify({"error": str(e)}), 500
 
 # --- 5. Entrypoint ---
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    logging.info(f"Starting Flask app on 0.0.0.0:{port}")
-    app.run(host="0.0.0.0", port=port)
+ port = int(os.environ.get("PORT", 8080))
+ logging.info(f"Starting Flask app on 0.0.0.0:{port}")
+ app.run(host="0.0.0.0", port=port)
