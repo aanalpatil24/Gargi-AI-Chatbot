@@ -4,5 +4,3 @@ gunicorn
 python-dotenv
 google-generativeai
 requests
-torch==2.2.2+cpu
-transformers==4.37.2
