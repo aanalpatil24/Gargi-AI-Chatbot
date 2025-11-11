@@ -12,10 +12,6 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 app = Flask(__name__)
 CORS(app)
-
-@app.route("/")
-def home():
-    return jsonify({"status": "Gargi AI backend is live on Render!"})
     
 @app.route("/favicon.ico")
 def favicon():
@@ -107,7 +103,17 @@ def chat():
         user_msg, 
         system_instruction
     )), mimetype='text/event-stream')
+    
+from flask import Flask, jsonify
+import os
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return jsonify({"message": "Gargi backend live ✅"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
